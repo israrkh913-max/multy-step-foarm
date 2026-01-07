@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi Step Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .steps {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #ddd;
+            margin-right: 5px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .step.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back {
+            background: #555;
+            color: white;
+        }
+
+        .next {
+            background: #007bff;
+            color: white;
+        }
+
+        .review-box p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Steps -->
+    <div class="steps">
+        <div class="step active">Step 1: Account</div>
+        <div class="step">Step 2: Personal</div>
+        <div class="step">Step 3: Review</div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="form-step active">
+        <label>Email Address</label>
+        <input type="email" id="email">
+
+        <label>Password</label>
+        <input type="password" id="password">
+
+        <label>Confirm Password</label>
+        <input type="password" id="confirm">
+
+        <div class="buttons">
+            <div></div>
+            <button class="next" onclick="nextStep()">Next ➜</button>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="form-step">
+        <label>First Name</label>
+        <input type="text" id="fname">
+
+        <label>Last Name</label>
+        <input type="text" id="lname">
+
+        <label>Phone</label>
+        <input type="text" id="phone">
+
+        <div class="buttons">
+            <button class="back" onclick="prevStep()">⬅ Back</button>
+            <button class="next" onclick="nextStep()">Next ➜</button>
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="form-step">
+        <h3>Review Information</h3>
+        <div class="review-box">
+            <p><b>Email:</b> <span id="rEmail"></span></p>
+            <p><b>First Name:</b> <span id="rFname"></span></p>
+            <p><b>Last Name:</b> <span id="rLname"></span></p>
+            <p><b>Phone:</b> <span id="rPhone"></span></p>
+        </div>
+
+        <div class="buttons">
+            <button class="back" onclick="prevStep()">⬅ Back</button>
+            <button class="next" onclick="submitForm()">Submit ✔</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".form-step");
+    const stepTitles = document.querySelectorAll(".step");
+
+    function showStep(index) {
+        steps.forEach(step => step.classList.remove("active"));
+        stepTitles.forEach(step => step.classList.remove("active"));
+
+        steps[index].classList.add("active");
+        stepTitles[index].classList.add("active");
+    }
+
+    function nextStep() {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            if (currentStep === 2) fillReview();
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    function fillReview() {
+        document.getElementById("rEmail").innerText =
+            document.getElementById("email").value;
+        document.getElementById("rFname").innerText =
+            document.getElementById("fname").value;
+        document.getElementById("rLname").innerText =
+            document.getElementById("lname").value;
+        document.getElementById("rPhone").innerText =
+            document.getElementById("phone").value;
+    }
+
+    function submitForm() {
+        alert("Form Submitted Successfully!");
+    }
+</script>
+
+</body>
+</html>
